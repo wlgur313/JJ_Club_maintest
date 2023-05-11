@@ -23,7 +23,6 @@ class MainPageActivity extends AppCompatActivity {
 
         //==============================Fragment 전환 Start ==================================
 
-
         binding = ActivityMainPageBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 

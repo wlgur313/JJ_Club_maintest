@@ -42,6 +42,18 @@
         android:background="@drawable/shadow"
         />
 
+    <android.widget.Button
+        android:text="인증"
+        android:id="@+id/btn_email_authentication"
+        android:layout_marginLeft="316dp"
+        android:layout_marginTop="251dp"
+        android:layout_width="52dp"
+        android:layout_height="34dp"
+        android:background="@drawable/btn_round_blue_box"
+        android:textSize="14sp"
+        android:textColor="#ffffff"
+        />
+
     <TextView
         android:text="이메일 인증번호"
         android:layout_width="wrap_content"
@@ -70,7 +82,7 @@
         android:text="확인"
         android:id="@+id/btn_register_check"
         android:layout_marginLeft="42dp"
-        android:layout_marginTop="507dp"
+        android:layout_marginTop="505dp"
         android:layout_width="344dp"
         android:layout_height="60dp"
         android:background="@drawable/btn_round_blue_box"

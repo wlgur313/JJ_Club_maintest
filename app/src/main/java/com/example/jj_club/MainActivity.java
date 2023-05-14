@@ -12,6 +12,9 @@ import com.example.jj_club.databinding.ActivityMainBinding;
 
 // 로그인 페이지
 
+
+
+
 public
 class MainActivity extends AppCompatActivity {
 
@@ -28,7 +31,7 @@ class MainActivity extends AppCompatActivity {
         TextView txtRegister = (TextView) findViewById(R.id.registerTextButton);
         txtRegister.setOnClickListener(new View.OnClickListener() {
             public void onClick( View view) {
-                Intent intent = new Intent(MainActivity.this , RegisterActivity.class);
+                Intent intent = new Intent(MainActivity.this , EmailVerificationActivity.class);
                 startActivity(intent);
 
             }

@@ -47,6 +47,14 @@ class MainActivity extends AppCompatActivity {
                 String email = emailEditText.getText().toString().trim();
                 String password = passwordEditText.getText().toString().trim();
 
+
+                if (TextUtils.isEmpty(email) && TextUtils.isEmpty(password)) {
+                    emailEditText.setHintTextColor(Color.RED);
+                    passwordEditText.setHintTextColor(Color.RED);
+                    Toast.makeText(MainActivity.this, "이메일과 비밀번호를 입력하세요.", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
                 if (TextUtils.isEmpty(email)) { // 이메일을 입력하지 않았다면
                     emailEditText.setHintTextColor(Color.RED);
                     Toast.makeText(MainActivity.this, "이메일을 입력하세요.", Toast.LENGTH_SHORT).show();

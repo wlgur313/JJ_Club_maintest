@@ -84,7 +84,7 @@ public class EmailVerificationManager {
     // completeRegistration 메서드 설명
     // - 인자로 (이메일) 인증 코드를 받아 회원가입 완료 요청을 보냄.
     // - 요청의 성공 또는 실패에 따라 적절한 처리를 수행합니다.
-    public void completeRegistration(String verificationCode) {
+    public void completeRegistration (String verificationCode) {
 
         Call<Void> call = service.completeRegistration(verificationCode);
 //        Call<Void> call = service.completeRegistration(verificationCode);

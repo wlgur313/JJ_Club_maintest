@@ -1,4 +1,4 @@
-package com.example.jj_club;
+package com.example.jj_club.network;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -11,7 +11,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 ///////해당 파일은 수정 필요 ##
 
 public class RetrofitClient {
-    private static final String BASE_URL = "http://your-base-url.com/"; // 실제 API의 기본 URL로 변경해야 합니다.
+    private static final String BASE_URL = "http://Cap.jjclub.pe.kr:80/"; // 실제 API의 기본 URL로 변경해야 합니다.
 
     private static Retrofit retrofit; //Retrofit 인스턴스를 저장하는 정적 변수
 

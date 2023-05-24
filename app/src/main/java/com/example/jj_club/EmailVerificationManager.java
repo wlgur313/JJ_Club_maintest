@@ -1,6 +1,6 @@
 package com.example.jj_club;
 
-
+// 보류 파일.
 import android.util.Log;
 
 import retrofit2.Call;
@@ -13,103 +13,107 @@ import android.content.Context;
 import android.widget.Toast;
 
 public class EmailVerificationManager {
-    private static final String BASE_URL = "https://your-api-endpoint.com/"; // 실제 API 엔드포인트 URL로 대체해야 함
-
-    private EmailVerificationService service;
-
-    private Context context; // Context 객체를 멤버 변수로 추가
-
-    public EmailVerificationManager(Context context) { //이메일 인증과 관련된 기능을 관리하는 클래스
-                                        // Retrofit을 사용하여 API와 통신하고, 이메일 인증 요청을 보내거나 회원가입을 완료하는 작업을 수행
-
-        this.context = context;
-        /* 아래 Retrofit 코드 설명
-        *
-        * 아래 코드는 Retrofit을 사용하여 API 서비스와 통신을 위한 Retrofit 인스턴스를 생성하고,
-        * 이를 통해 이메일 인증과 회원가입 완료 요청을 서버에 보낼 수 있는 기능을 구현하는데 사용됩
-        *
-        * */
-
-        Retrofit retrofit = new Retrofit.Builder() // Retrofit을 초기화하기 위해 Retrofit.Builder 객체를 생성
-                                                   // Builder 객체는 Retrofit 설정을 구성할 수 있는 메서드들을 제공
-                .baseUrl(BASE_URL)                 // Retrofit에 사용할 API의 기본 URL을 설정
-                                                   // BASE_URL은 실제 API 서버의 엔드포인트 주소로 대체되어야 함
-                .addConverterFactory(GsonConverterFactory.create())  // JSON 데이터를 자바 객체로 변환하기 위해 GsonConverterFactory를 추가
-                                                                     //이렇게 하면 Retrofit은 서버 응답의 JSON 데이터를 자동으로 파싱하여 자바 객체로 변환할 수 있음
-                .build(); //이전 단계에서 구성한 설정으로 Retrofit 객체를 빌드
-                          //최종적으로 사용할 Retrofit 인스턴스를 생성
-
-        service = retrofit.create(EmailVerificationService.class); //Retrofit 인스턴스를 사용하여 API 서비스의 구현체를 생성
-        // EmailVerificationService.class는 Retrofit이 생성할 API 서비스의 인터페이스임
-        // 이 인터페이스는 API 요청 메서드들을 선언하고, Retrofit은 이를 구현하여 서버와의 통신을 처리함
-    }
-
-// sendVerificationEmail 메서드 설명
-/* - 인자로 이메일을 받아 이메일 인증 요청을 보내는 메서드.
-   - 이메일 도메인이 "@jj.ac.kr"로 끝날 때만 인증 요청을 수행하며,
-   - 요청의 성공 또는 실패에 따라 적절한 처리를 수행함.*/
-// - sendVerificationEmail  메서드를 호출하여 사용자가 입력한 이메일을 서버로 전송하고 응답을 처리
-    public void sendVerificationEmail(String email) {
-        if (email.endsWith("@jj.ac.kr")) {
-            Call<Void> call = service.sendVerificationEmail(email);
-//            Call<Void> call = service.sendVerificationEmail(email); //Call 객체는 웹 서버에 요청을 보낼 때 사용하는 객체
-                                                                    /*service.sendVerificationEmail(email)은
-                                                                    EmailVerificationService 인터페이스의 sendVerificationEmail 메서드를 호출하여 이메일 인증 요청을 보내는 것*/
-            call.enqueue(new Callback<Void>() { // call: 서버로  HTTP 요청을 나타내는 객체, enqueue: 메서드를 호출하여 해당 요청을 처리하도록 합
-                @Override
-                public void onResponse(Call<Void> call, Response<Void> response) {
-                    if (response.isSuccessful()) {
-                        Toast.makeText(context, "인증 코드가 전송되었습니다.", Toast.LENGTH_SHORT).show();
-                    } else {
-                        Toast.makeText(context, "인증 코드 발송에 실패했습니다.", Toast.LENGTH_SHORT).show();
-                    }
-                }
-
-                @Override
-                public void onFailure(Call<Void> call, Throwable t) {
-                    // 네트워크 오류 등으로 인해 이메일 인증 요청 실패
-                    // 오류 처리를 수행할 수 있음
-                    Toast.makeText(context, "네트워크 오류로 인해 이메일 인증 코드 발송에 실패했습니다.", Toast.LENGTH_SHORT).show();
-//                    Log.e("EmailVerification", "이메일 인증 요청 실패: " + t.getMessage());
-                }
-            });
-        } else {
-            // 인증할 수 없는 이메일 도메인 처리
-            Toast.makeText(context, "전주대 이메일(@jj.ac.kr)로만 가입이 가능합니다", Toast.LENGTH_SHORT).show();
-            //Log.d("EmailVerification", "인증할 수 없는 이메일 도메인입니다.");
-        }
-    }
 
 
-    // completeRegistration 메서드 설명
-    // - 인자로 (이메일) 인증 코드를 받아 회원가입 완료 요청을 보냄.
-    // - 요청의 성공 또는 실패에 따라 적절한 처리를 수행합니다.
-    public void completeRegistration (String verificationCode) {
 
-        Call<Void> call = service.completeRegistration(verificationCode);
-//        Call<Void> call = service.completeRegistration(verificationCode);
-        call.enqueue(new Callback<Void>() {
-
-            // onResponse 메서드에서 서버 응답이 성공인 경우와 실패인 경우에 대해 처리
-            @Override
-            public void onResponse(Call<Void> call, Response<Void> response) {
-                if (response.isSuccessful()) {
-                    // 이메일 인증 성공
-                    Toast.makeText(context, "이메일 인증이 완료되었습니다.", Toast.LENGTH_SHORT).show();
-                } else {
-                    // 이메일 인증 실패
-                    Toast.makeText(context, "이메일 인증에 실패했습니다.", Toast.LENGTH_SHORT).show();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<Void> call, Throwable t) {
-                // 네트워크 오류 등으로 인해 회원가입 완료 요청 실패
-                Toast.makeText(context, "회원가입에 실패했습니다.", Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
 }
+//    private static final String BASE_URL = "https://your-api-endpoint.com/"; // 실제 API 엔드포인트 URL로 대체해야 함
+//
+//    private EmailVerificationService service;
+//
+//    private Context context; // Context 객체를 멤버 변수로 추가
+//
+//    public EmailVerificationManager(Context context) { //이메일 인증과 관련된 기능을 관리하는 클래스
+//                                        // Retrofit을 사용하여 API와 통신하고, 이메일 인증 요청을 보내거나 회원가입을 완료하는 작업을 수행
+//
+//        this.context = context;
+//        /* 아래 Retrofit 코드 설명
+//        *
+//        * 아래 코드는 Retrofit을 사용하여 API 서비스와 통신을 위한 Retrofit 인스턴스를 생성하고,
+//        * 이를 통해 이메일 인증과 회원가입 완료 요청을 서버에 보낼 수 있는 기능을 구현하는데 사용됩
+//        *
+//        * */
+//
+//        Retrofit retrofit = new Retrofit.Builder() // Retrofit을 초기화하기 위해 Retrofit.Builder 객체를 생성
+//                                                   // Builder 객체는 Retrofit 설정을 구성할 수 있는 메서드들을 제공
+//                .baseUrl(BASE_URL)                 // Retrofit에 사용할 API의 기본 URL을 설정
+//                                                   // BASE_URL은 실제 API 서버의 엔드포인트 주소로 대체되어야 함
+//                .addConverterFactory(GsonConverterFactory.create())  // JSON 데이터를 자바 객체로 변환하기 위해 GsonConverterFactory를 추가
+//                                                                     //이렇게 하면 Retrofit은 서버 응답의 JSON 데이터를 자동으로 파싱하여 자바 객체로 변환할 수 있음
+//                .build(); //이전 단계에서 구성한 설정으로 Retrofit 객체를 빌드
+//                          //최종적으로 사용할 Retrofit 인스턴스를 생성
+//
+//        service = retrofit.create(EmailVerificationService.class); //Retrofit 인스턴스를 사용하여 API 서비스의 구현체를 생성
+//        // EmailVerificationService.class는 Retrofit이 생성할 API 서비스의 인터페이스임
+//        // 이 인터페이스는 API 요청 메서드들을 선언하고, Retrofit은 이를 구현하여 서버와의 통신을 처리함
+//    }
+//
+//// sendVerificationEmail 메서드 설명
+///* - 인자로 이메일을 받아 이메일 인증 요청을 보내는 메서드.
+//   - 이메일 도메인이 "@jj.ac.kr"로 끝날 때만 인증 요청을 수행하며,
+//   - 요청의 성공 또는 실패에 따라 적절한 처리를 수행함.*/
+//// - sendVerificationEmail  메서드를 호출하여 사용자가 입력한 이메일을 서버로 전송하고 응답을 처리
+//    public void sendVerificationEmail(String email) {
+//        if (email.endsWith("@jj.ac.kr")) {
+//            Call<Void> call = service.sendVerificationEmail(email);
+////            Call<Void> call = service.sendVerificationEmail(email); //Call 객체는 웹 서버에 요청을 보낼 때 사용하는 객체
+//                                                                    /*service.sendVerificationEmail(email)은
+//                                                                    EmailVerificationService 인터페이스의 sendVerificationEmail 메서드를 호출하여 이메일 인증 요청을 보내는 것*/
+//            call.enqueue(new Callback<Void>() { // call: 서버로  HTTP 요청을 나타내는 객체, enqueue: 메서드를 호출하여 해당 요청을 처리하도록 합
+//                @Override
+//                public void onResponse(Call<Void> call, Response<Void> response) {
+//                    if (response.isSuccessful()) {
+//                        Toast.makeText(context, "인증 코드가 전송되었습니다.", Toast.LENGTH_SHORT).show();
+//                    } else {
+//                        Toast.makeText(context, "인증 코드 발송에 실패했습니다.", Toast.LENGTH_SHORT).show();
+//                    }
+//                }
+//
+//                @Override
+//                public void onFailure(Call<Void> call, Throwable t) {
+//                    // 네트워크 오류 등으로 인해 이메일 인증 요청 실패
+//                    // 오류 처리를 수행할 수 있음
+//                    Toast.makeText(context, "네트워크 오류로 인해 이메일 인증 코드 발송에 실패했습니다.", Toast.LENGTH_SHORT).show();
+////                    Log.e("EmailVerification", "이메일 인증 요청 실패: " + t.getMessage());
+//                }
+//            });
+//        } else {
+//            // 인증할 수 없는 이메일 도메인 처리
+//            Toast.makeText(context, "전주대 이메일(@jj.ac.kr)로만 가입이 가능합니다", Toast.LENGTH_SHORT).show();
+//            //Log.d("EmailVerification", "인증할 수 없는 이메일 도메인입니다.");
+//        }
+//    }
+//
+//
+//    // completeRegistration 메서드 설명
+//    // - 인자로 (이메일) 인증 코드를 받아 회원가입 완료 요청을 보냄.
+//    // - 요청의 성공 또는 실패에 따라 적절한 처리를 수행합니다.
+//    public void completeRegistration (String code) {
+//
+//        Call<Void> call = service.completeRegistration(code);
+////        Call<Void> call = service.completeRegistration(verificationCode);
+//        call.enqueue(new Callback<Void>() {
+//
+//            // onResponse 메서드에서 서버 응답이 성공인 경우와 실패인 경우에 대해 처리
+//            @Override
+//            public void onResponse(Call<Void> call, Response<Void> response) {
+//                if (response.isSuccessful()) {
+//                    // 이메일 인증 성공
+//                    Toast.makeText(context, "이메일 인증이 완료되었습니다.", Toast.LENGTH_SHORT).show();
+//                } else {
+//                    // 이메일 인증 실패
+//                    Toast.makeText(context, "이메일 인증에 실패했습니다.", Toast.LENGTH_SHORT).show();
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(Call<Void> call, Throwable t) {
+//                // 네트워크 오류 등으로 인해 회원가입 완료 요청 실패
+//                Toast.makeText(context, "회원가입에 실패했습니다.", Toast.LENGTH_SHORT).show();
+//            }
+//        });
+//    }
+//}
 
 
 /*

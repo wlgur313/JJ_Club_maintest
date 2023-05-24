@@ -1,4 +1,4 @@
-package com.example.jj_club;
+package com.example.jj_club.fragments;
 ////////////////////메인(홈) 페이지///////////////////
 
 import android.content.Intent;
@@ -6,11 +6,13 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
-import android.os.ParcelUuid;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import com.example.jj_club.activities.PopularPostsActivity;
+import com.example.jj_club.R;
 
 public
 class HomeFragment extends Fragment {
@@ -62,7 +64,7 @@ class HomeFragment extends Fragment {
         more_popular_posts.setOnClickListener(new View.OnClickListener() {
             public
             void onClick ( View view ) {
-                Intent intent = new Intent(view.getContext(), PopularPosts.class);
+                Intent intent = new Intent(view.getContext(), PopularPostsActivity.class);
                 startActivity(intent);
             }
         });

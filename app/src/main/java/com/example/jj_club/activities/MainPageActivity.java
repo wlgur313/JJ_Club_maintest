@@ -1,4 +1,4 @@
-package com.example.jj_club;
+package com.example.jj_club.activities;
 ////////////////////메인 페이지///////////////////
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -8,8 +8,11 @@ import androidx.fragment.app.FragmentTransaction;
 
 import android.os.Bundle;
 
-import com.example.jj_club.databinding.ActivityMainBinding;
+import com.example.jj_club.R;
 import com.example.jj_club.databinding.ActivityMainPageBinding;
+import com.example.jj_club.fragments.HomeFragment;
+import com.example.jj_club.fragments.MyClubFragment;
+import com.example.jj_club.fragments.ProfileFragment;
 
 public
 class MainPageActivity extends AppCompatActivity {

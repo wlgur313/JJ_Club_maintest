@@ -1,14 +1,15 @@
-package com.example.jj_club;
+package com.example.jj_club.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageButton;
 
+import com.example.jj_club.R;
+
 public
-class PopularPosts extends AppCompatActivity {
+class PopularPostsActivity extends AppCompatActivity {
 
     @Override
     protected

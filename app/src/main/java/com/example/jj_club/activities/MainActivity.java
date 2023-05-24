@@ -1,4 +1,4 @@
-package com.example.jj_club;
+package com.example.jj_club.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -12,26 +12,26 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.jj_club.databinding.ActivityMainBinding;
+import com.example.jj_club.R;
+import com.example.jj_club.network.RetrofitClient;
+import com.example.jj_club.network.LoginInterface;
+import com.example.jj_club.models.request.LoginRequest;
+import com.example.jj_club.models.response.LoginResponse;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-//////////// 로그인 페이지///////////////
-
-public
-class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity {
 
     private EditText emailEditText;
     private EditText passwordEditText;
     private Button loginButton;
 
-    private LoginInterface loginInterface; //Retrofit으로 서버와 통신하기 위한 LoginInterface를 선언
+    private LoginInterface loginInterface;
 
     @Override
-    protected
-    void onCreate ( Bundle savedInstanceState ) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -47,7 +47,6 @@ class MainActivity extends AppCompatActivity {
                 String email = emailEditText.getText().toString().trim();
                 String password = passwordEditText.getText().toString().trim();
 
-
                 if (TextUtils.isEmpty(email) && TextUtils.isEmpty(password)) {
                     emailEditText.setHintTextColor(Color.RED);
                     passwordEditText.setHintTextColor(Color.RED);
@@ -55,34 +54,31 @@ class MainActivity extends AppCompatActivity {
                     return;
                 }
 
-                if (TextUtils.isEmpty(email)) { // 이메일을 입력하지 않았다면
+                if (TextUtils.isEmpty(email)) {
                     emailEditText.setHintTextColor(Color.RED);
                     Toast.makeText(MainActivity.this, "이메일을 입력하세요.", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
-                if (TextUtils.isEmpty(password)) { // 비밀번호를 입력하지 않았다면
-                    passwordEditText.setHintTextColor(Color.RED); //hint 글씨 색이 붉은 색으로 변경됨
+                if (TextUtils.isEmpty(password)) {
+                    passwordEditText.setHintTextColor(Color.RED);
                     Toast.makeText(MainActivity.this, "비밀번호를 입력하세요.", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
-                Call<LoginResponse> call = loginInterface.login(email, password);
-//                loginInterface를 사용하여 서버로 로그인 요청을 전송합니다.
-//                email과 password는 사용자가 입력한 값입니다.
+                LoginRequest loginRequest = new LoginRequest(email, password);
+                Call<LoginResponse> call = loginInterface.login(loginRequest);
 
-                call.enqueue(new Callback<LoginResponse>() { // 서버에 비동기 요청을 보내고, 서버의 응답을 처리하는 콜백(onResponse, onFailure)을 등록하는 역할
+                call.enqueue(new Callback<LoginResponse>() {
                     @Override
                     public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
                         if (response.isSuccessful()) {
                             LoginResponse loginResponse = response.body();
-                            if (loginResponse != null && loginResponse.isSuccess()) {
+                            if (loginResponse != null && loginResponse.getResult().equals("success")) {
                                 Toast.makeText(MainActivity.this, "로그인 성공", Toast.LENGTH_SHORT).show();
-                                // 로그인 성공 시 MainPageActivity로 화면 전환
                                 Intent intent = new Intent(MainActivity.this, MainPageActivity.class);
                                 startActivity(intent);
-                                finish(); // 현재 액티비티 종료
-                                finish(); // 현재 액티비티 종료
+                                finish();
                             } else {
                                 Toast.makeText(MainActivity.this, "이메일 또는 비밀번호가 일치하지 않습니다.", Toast.LENGTH_SHORT).show();
                             }
@@ -91,8 +87,7 @@ class MainActivity extends AppCompatActivity {
                         }
                     }
 
-
-                @Override
+                    @Override
                     public void onFailure(Call<LoginResponse> call, Throwable t) {
                         Toast.makeText(MainActivity.this, "로그인 요청 실패: " + t.getMessage(), Toast.LENGTH_SHORT).show();
                     }
@@ -100,21 +95,16 @@ class MainActivity extends AppCompatActivity {
             }
         });
 
-        // 로그인 페이지에 있는 '회원가입하러가기' 텍스트 클릭 시
-        // 회원가입 페이지(이메일 인증)로 이동
-        TextView txtRegister = (TextView) findViewById(R.id.registerTextButton);
+        TextView txtRegister = findViewById(R.id.registerTextButton);
         txtRegister.setOnClickListener(new View.OnClickListener() {
-            public void onClick( View view) {
-                Intent intent = new Intent(MainActivity.this , EmailVerificationActivity.class);
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, EmailVerificationActivity.class);
                 startActivity(intent);
-
             }
         });
-
-
     }
-
 }
+
 /* 코드 설명 (읽을 필요 X)
 Call<LoginResponse> call = loginInterface.login(email, password);:
 

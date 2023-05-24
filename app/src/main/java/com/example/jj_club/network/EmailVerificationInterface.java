@@ -1,9 +1,12 @@
-package com.example.jj_club;
+package com.example.jj_club.network;
+
+import com.example.jj_club.models.request.EmailConfirmationRequest;
+import com.example.jj_club.models.response.EmailConfirmationResponse;
+import com.example.jj_club.models.request.EmailVerificationRequest;
+import com.example.jj_club.models.response.EmailVerificationResponse;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
-import retrofit2.http.Field;
-import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.POST;
 
 /* 변경 필요 사항
@@ -15,16 +18,14 @@ import retrofit2.http.POST;
 // - 서버와 통신하기 위한 API 인터페이스 파일
 // - 서버의 엔드포인트와 통신을 정의
 
-public interface EmailVerificationService {
+public interface EmailVerificationInterface {
 
-        @POST("verify-email")
-        Call<Void> sendVerificationEmail(@Body String email); //사용자가 작성한 이메일을 서버로 보내는 것
+        @POST("/api/v1/auth/email")
+        Call<EmailVerificationResponse> sendVerificationEmail( @Body EmailVerificationRequest request);
 
-        @POST("complete-registration")
-        Call<Void> completeRegistration(@Body String verificationCode);
+        @POST("/api/v1/auth/verifyCode")
+        Call<EmailConfirmationResponse> verifyEmail( @Body EmailConfirmationRequest request);
 }
-
-
 
 
 //
@@ -60,12 +61,6 @@ EmailVerificationRequest 객체에는 사용자가 입력한 이메일 주소가
 
 간단히 말해, sendVerificationEmail 메서드는 이메일 인증 요청을 보내기 위해
 사용자가 입력한 이메일 주소를 포함한 EmailVerificationRequest 객체를 서버로 전송한다는 의미입니다.
-
-
-
-
-
-
 
 
 */

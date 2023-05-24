@@ -1,4 +1,4 @@
-package com.example.jj_club;
+package com.example.jj_club.activities;
 ////////////////////메인 페이지///////////////////
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -8,8 +8,11 @@ import androidx.fragment.app.FragmentTransaction;
 
 import android.os.Bundle;
 
-import com.example.jj_club.databinding.ActivityMainBinding;
+import com.example.jj_club.R;
 import com.example.jj_club.databinding.ActivityMainPageBinding;
+import com.example.jj_club.fragments.HomeFragment;
+import com.example.jj_club.fragments.MyClubFragment;
+import com.example.jj_club.fragments.ProfileFragment;
 
 public
 class MainPageActivity extends AppCompatActivity {
@@ -31,17 +34,13 @@ class MainPageActivity extends AppCompatActivity {
         // fragment에 있는 vector 이미지들 클릭할 때 마다 화면 전환하도록 만든 코드
         binding.bottomNavigationView.setOnItemSelectedListener(item -> {
 
-            switch (item.getItemId()) {
-                case R.id.vector_home:
-                    replaceFragment(new HomeFragment());
-                    break;
-                case R.id.vector_myClub:
-                    replaceFragment(new MyClubFragment());
-                    break;
-                case R.id.vector_profile:
-                    replaceFragment(new ProfileFragment());
-                    break;
-
+            int itemId = item.getItemId();
+            if (itemId == R.id.vector_home) {
+                replaceFragment(new HomeFragment());
+            } else if (itemId == R.id.vector_myClub) {
+                replaceFragment(new MyClubFragment());
+            } else if (itemId == R.id.vector_profile) {
+                replaceFragment(new ProfileFragment());
             }
             return true;
         });

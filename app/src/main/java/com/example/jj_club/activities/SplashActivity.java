@@ -1,9 +1,11 @@
-package com.example.jj_club;
+package com.example.jj_club.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.content.Intent;
 import android.os.Handler;
+
+import com.example.jj_club.R;
 
 
 //앱 시작하면 맨 처음 보이는 splash 화면이다.

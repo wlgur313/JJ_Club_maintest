@@ -1,5 +1,4 @@
 package com.example.jj_club.activities;
-////////////////////메인 페이지///////////////////
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
@@ -14,26 +13,19 @@ import com.example.jj_club.fragments.HomeFragment;
 import com.example.jj_club.fragments.MyClubFragment;
 import com.example.jj_club.fragments.ProfileFragment;
 
-public
-class MainPageActivity extends AppCompatActivity {
+public class MainPageActivity extends AppCompatActivity {
 
-    // fragment 만들 때 같이 만들어 준 binding
-    ActivityMainPageBinding binding;
+    private ActivityMainPageBinding binding;
+
     @Override
-    protected
-    void onCreate ( Bundle savedInstanceState ) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        //==============================Fragment 전환 Start ==================================
-
         binding = ActivityMainPageBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
         replaceFragment(new HomeFragment());
 
-        // fragment에 있는 vector 이미지들 클릭할 때 마다 화면 전환하도록 만든 코드
         binding.bottomNavigationView.setOnItemSelectedListener(item -> {
-
             int itemId = item.getItemId();
             if (itemId == R.id.vector_home) {
                 replaceFragment(new HomeFragment());
@@ -44,18 +36,12 @@ class MainPageActivity extends AppCompatActivity {
             }
             return true;
         });
-
     }
 
-    private void replaceFragment( Fragment  fragment) {
-
+    private void replaceFragment(Fragment fragment) {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.frame_layout, fragment);
         fragmentTransaction.commit();
-
-
-        //==============================Fragment 전환 End==================================
     }
-
 }

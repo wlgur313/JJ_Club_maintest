@@ -48,7 +48,7 @@
         <activity
             android:name=".activities.EmailVerificationActivity"
             android:exported="true" >
-
+<!--intent filter 바꿔서 프래그 먼트 전환 잘 되는지 체크. 명준이 거 체크-->
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
